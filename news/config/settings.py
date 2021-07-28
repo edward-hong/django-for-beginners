@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,4 +135,14 @@ LOGOUT_REDIRECT_URL = "home"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+env = environ.Env()
+environ.Env.read_env()
+
+DEFAULT_FROM_EMAIL = "test@newspaper.com"
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = env("SENDGRID_KEY")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
